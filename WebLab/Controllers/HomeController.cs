@@ -8,10 +8,5 @@ namespace WebLab.Controllers
         {
             return View();
         }
-
-		public IActionResult Lab2()
-		{
-			return View();
-		}
 	}
 }
