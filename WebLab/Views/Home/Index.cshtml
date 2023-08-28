@@ -3,21 +3,26 @@
 }
 <div class="container">
 	<h1>
-		Лабораторная работа 1
+		@ViewData["LabName"]
 	</h1>
 	<h3>
 		Список
 	</h3>
 	<ol type="a">
-		<li>
-			Элемент 1 списка
-		</li>
-		<li>
-			Элемент 2 списка
-		</li>
+		@for (var i = 0; i < 10; ++i)
+		{
+			<li>
+				Элемент @i списка
+			</li>
+		}
 	</ol>
 	<h3>Форма</h3>
-	<form method="get">
+	<form role="form" method="post">
+		<div class="row mb-3">
+			<div class="col-sm-10 offset-sm-2">
+				<select class="form-select" name="listDemo" asp-items="ViewBag.Lists"></select>
+			</div>
+		</div>
 		<div class="row mb-3">
 			<div class="col-sm-10 offset-sm-2">
 				<div class="form-check">
