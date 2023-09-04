@@ -1,9 +1,9 @@
 ﻿using WebLab.Domain.Entities;
 using WebLab.Domain.Models;
 
-namespace WebLab.Services.BeerTypeService
+namespace WebLab.API.Services.BeerTypeService
 {
-	public class MemoryBeerTypeService : IBeerTypeService
+	public class BeerTypeService : IBeerTypeService
 	{
 		public Task<ResponseData<List<BeerType>>> GetBeerTypeListAsync()
 		{

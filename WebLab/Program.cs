@@ -1,7 +1,7 @@
+using Microsoft.Extensions.DependencyInjection;
+using WebLab.Models;
 using WebLab.Services.BeerService;
 using WebLab.Services.BeerTypeService;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace WebLab
 {
@@ -10,12 +10,15 @@ namespace WebLab
 		public static void Main(string[] args)
 		{
 			var builder = WebApplication.CreateBuilder(args);
-			builder.Services.AddDbContext<BeerContext>(options =>
-			    options.UseSqlServer(builder.Configuration.GetConnectionString("BeerContext") ?? throw new InvalidOperationException("Connection string 'BeerContext' not found.")));
 
 			// Add services to the container.
 			builder.Services.AddControllersWithViews();
+
 			AddServices(builder.Services);
+
+			var uriData = builder.Configuration.GetSection("UriData").Get<UriData>()!;
+			builder.Services.AddHttpClient("API", opt => opt.BaseAddress = new(uriData.ApiUri));
+
 
 			var app = builder.Build();
 
@@ -26,6 +29,8 @@ namespace WebLab
 				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 				app.UseHsts();
 			}
+
+
 
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
@@ -43,8 +48,8 @@ namespace WebLab
 
 		private static void AddServices(IServiceCollection services)
 		{
-			services.AddScoped<IBeerTypeService, MemoryBeerTypeService>();
-			services.AddScoped<IBeerService, MemoryBeerService>();
+			services.AddScoped<IBeerService, ApiBeerService>();
+			services.AddScoped<IBeerTypeService, ApiBeerTypeService>();
 		}
 	}
 }
