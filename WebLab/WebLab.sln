@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebLab", "WebLab.csproj", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebLab.Domain", "..\WebLab.Domain\WebLab.Domain.csproj", "{89DCA512-A57C-48DB-ABC7-9647530BF49B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebLab.API", "..\WebLab.API\WebLab.API.csproj", "{2005A2EB-288B-4927-9C21-DD5719FC1C19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebLab.API", "..\WebLab.API\WebLab.API.csproj", "{2005A2EB-288B-4927-9C21-DD5719FC1C19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

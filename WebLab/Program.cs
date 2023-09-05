@@ -1,4 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
 using WebLab.Models;
 using WebLab.Services.BeerService;
 using WebLab.Services.BeerTypeService;
@@ -13,6 +12,7 @@ namespace WebLab
 
 			// Add services to the container.
 			builder.Services.AddControllersWithViews();
+			builder.Services.AddRazorPages();
 
 			AddServices(builder.Services);
 
@@ -40,8 +40,16 @@ namespace WebLab
 			app.UseAuthorization();
 
 			app.MapControllerRoute(
+				  name: "Admin",
+				  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+			);
+
+			app.MapControllerRoute(
 				name: "default",
-				pattern: "{controller=Home}/{action=Index}/{id?}");
+				pattern: "{controller=Home}/{action=Index}/{id?}"
+			);
+
+			app.MapRazorPages();
 
 			app.Run();
 		}

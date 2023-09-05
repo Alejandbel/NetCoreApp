@@ -4,8 +4,8 @@
 }
 <a class="navbar-brand" href="#">15350015</a>
 <div class="navbar-nav">
-	<a class="nav-item nav-link @(controller=="home"?"active":"")" asp-controller="home" asp-action="index">Лб 1</a>
-	<a class="nav-item nav-link @(controller=="beer"?"active":"")" asp-controller="beer" asp-action="index">Каталог</a>
+	<a class="nav-item nav-link @(controller=="home"?"active":"")" asp-area="" asp-controller="home" asp-action="index">Лб 1</a>
+	<a class="nav-item nav-link @(controller=="beer"?"active":"")" asp-area="" asp-controller="beer" asp-action="index">Каталог</a>
 	<a class="nav-item nav-link @(area=="admin"?"active":"")" asp-area="admin" asp-page="/index">Администрирование</a>
 </div>
 

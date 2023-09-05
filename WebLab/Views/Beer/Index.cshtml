@@ -9,94 +9,85 @@
 	int next = Model.CurrentPage == Model.TotalPages ? Model.TotalPages : Model.CurrentPage + 1;
 }
 
-<!DOCTYPE html>
 
-<html>
-<head>
-	<meta name="viewport" content="width=device-width" />
-	<title>Index</title>
-</head>
-<body>
-	<div class="container overflow-hidden">
-		<div class="col-2 border-2">
-			<ul class="nav ">
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle"
-					   data-bs-toggle="dropdown"
-					   href="#"
-					   role="button"
-					   aria-expanded="false">
-						@(currentBeerType ?? "Все")
-					</a>
-					<ul class="dropdown-menu">
+<div class="container overflow-hidden">
+	<div class="col-2 border-2">
+		<ul class="nav ">
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle"
+				   data-bs-toggle="dropdown"
+				   href="#"
+				   role="button"
+				   aria-expanded="false">
+					@(currentBeerType ?? "Все")
+				</a>
+				<ul class="dropdown-menu">
+					<li>
+						<a class="dropdown-item"
+						   asp-controller="beer"
+						   asp-route-type=@null>Все</a>
+					</li>
+					@foreach (var item in beerTypes)
+					{
 						<li>
 							<a class="dropdown-item"
 							   asp-controller="beer"
-							   asp-route-type=@null>Все</a>
-						</li>
-						@foreach (var item in beerTypes)
-						{
-							<li>
-								<a class="dropdown-item"
-								   asp-controller="beer"
-								   asp-route-beerType="@item.NormalizedName">
-									@item.Name
-								</a>
-							</li>
-						}
-					</ul>
-				</li>
-			</ul>
-		</div>
-		<div class="row row-cols-1 row-cols-md-3 g-4">
-			@foreach (var item in Model.Items)
-			{
-				<div class="col">
-					<div class="card h-100">
-						<img src="@item.ImagePath" class="card-img-top" style="object-fit: contain; height: 300px;" alt="beer">
-						<div class="card-body">
-							<h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
-							<p class="card-text">
-								Type: @Html.DisplayFor(modelItem => item.Type!.Name)
-							</p>
-							<p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
-							<p class="card-text">Price: @Html.DisplayFor(modelItem => item.Price)</p>
-
-						</div>
-						<a asp-controller="beer"
-						   asp-action="add"
-						   asp-route-id="@item.Id"
-						   asp-route-returnUrl="@returnUrl"
-						   class="btn btn-primary" style="vertical-align: bottom; margin:10px; padding:10px;">
-							Add to cart <i class="fa-solid fa-cart-shopping"></i>
-						</a>
-					</div>
-				</div>
-
-			}
-		</div>
-		<div class="row row-cols-1 row-cols-md-3 g-4">
-			<nav aria-label="Page navigation example">
-				<ul class="pagination">
-					<li class="page-item">
-						<a class="page-link" asp-route-beerType="@currentBeerType" asp-route-pageNo="@prev">
-							<span aria-hidden="true">&laquo;</span>
-						</a>
-					</li>
-					@for (int pageNumber = 1; pageNumber <= Model.TotalPages; pageNumber++)
-					{
-						<li class="@(pageNumber == Model.CurrentPage ? "page-item active" : "page-item")">
-							<a class="page-link" asp-route-beerType="@currentBeerType" asp-route-pageNo="@pageNumber">@pageNumber</a>
+							   asp-route-beerType="@item.NormalizedName">
+								@item.Name
+							</a>
 						</li>
 					}
-					<li class="page-item">
-						<a class="page-link" asp-route-beerType="@currentBeerType" asp-route-pageNo="@next">
-							<span aria-hidden="true">&raquo;</span>
-						</a>
-					</li>
 				</ul>
-			</nav>
-		</div>
+			</li>
+		</ul>
 	</div>
-</body>
-</html>
+	<div class="row row-cols-1 row-cols-md-3 g-4">
+		@foreach (var item in Model.Items)
+		{
+			<div class="col">
+				<div class="card h-100">
+					<img src="@item.ImagePath" class="card-img-top" style="object-fit: contain; height: 300px;" alt="beer">
+					<div class="card-body">
+						<h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+						<p class="card-text">
+							Type: @Html.DisplayFor(modelItem => item.Type!.Name)
+						</p>
+						<p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+						<p class="card-text">Price: @Html.DisplayFor(modelItem => item.Price)</p>
+
+					</div>
+					<a asp-controller="beer"
+					   asp-action="add"
+					   asp-route-id="@item.Id"
+					   asp-route-returnUrl="@returnUrl"
+					   class="btn btn-primary" style="vertical-align: bottom; margin:10px; padding:10px;">
+						Add to cart <i class="fa-solid fa-cart-shopping"></i>
+					</a>
+				</div>
+			</div>
+
+		}
+	</div>
+	<div class="row row-cols-1 row-cols-md-3 g-4">
+		<nav aria-label="Page navigation example">
+			<ul class="pagination">
+				<li class="page-item">
+					<a class="page-link" asp-route-beerType="@currentBeerType" asp-route-pageNo="@prev">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+				@for (int pageNumber = 1; pageNumber <= Model.TotalPages; pageNumber++)
+				{
+					<li class="@(pageNumber == Model.CurrentPage ? "page-item active" : "page-item")">
+						<a class="page-link" asp-route-beerType="@currentBeerType" asp-route-pageNo="@pageNumber">@pageNumber</a>
+					</li>
+				}
+				<li class="page-item">
+					<a class="page-link" asp-route-beerType="@currentBeerType" asp-route-pageNo="@next">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+</div>

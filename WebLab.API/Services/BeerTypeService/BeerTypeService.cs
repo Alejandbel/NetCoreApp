@@ -1,21 +1,23 @@
-﻿using WebLab.Domain.Entities;
+﻿using WebLab.API.Data;
+using WebLab.Domain.Entities;
 using WebLab.Domain.Models;
 
 namespace WebLab.API.Services.BeerTypeService
 {
-	public class BeerTypeService : IBeerTypeService
-	{
-		public Task<ResponseData<List<BeerType>>> GetBeerTypeListAsync()
-		{
-			var beerTypes = new List<BeerType>()
-			{
-				new BeerType { Id = 1, Name="Stout", NormalizedName="stout"},
-				new BeerType { Id = 2, Name="Lager", NormalizedName="lager"},
-				new BeerType { Id = 3, Name="Porter", NormalizedName="porter"},
-			};
+    public class BeerTypeService : IBeerTypeService
+    {
+        private readonly AppDbContext _context;
 
-			var result = new ResponseData<List<BeerType>>(beerTypes);
-			return Task.FromResult(result);
-		}
-	}
+        public BeerTypeService(AppDbContext context)
+        {
+            _context = context;
+        }
+
+        public Task<ResponseData<List<BeerType>>> GetBeerTypeListAsync()
+        {
+            var beerTypes = _context.BeerType.ToList();
+            var result = new ResponseData<List<BeerType>>(beerTypes);
+            return Task.FromResult(result);
+        }
+    }
 }

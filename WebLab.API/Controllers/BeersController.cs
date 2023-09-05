@@ -48,7 +48,7 @@ namespace WebLab.API.Controllers
 		public async Task<ActionResult<ResponseData<Beer>>> PostBeer(Beer beer)
 		{
 			var createdBeer = await _beerService.CreateBeerAsync(beer);
-			return CreatedAtAction("GetBeer", new { id = createdBeer.Data.Id }, beer);
+			return CreatedAtAction("GetBeer", new { id = createdBeer.Data.Id }, createdBeer);
 		}
 
 		// DELETE: api/Beers/5
@@ -57,6 +57,18 @@ namespace WebLab.API.Controllers
 		{
 			await _beerService.DeleteBeerAsync(id);
 			return NoContent();
+		}
+
+		// POST: api/Dishes/5
+		[HttpPost("{id}")]
+		public async Task<ActionResult<ResponseData<string>>> PostImage(int id, IFormFile formFile)
+		{
+			var response = await _beerService.SaveImageAsync(id, formFile);
+			if (response.IsSuccess)
+			{
+				return Ok(response);
+			}
+			return NotFound(response);
 		}
 	}
 }

@@ -31,7 +31,7 @@ namespace WebLab.API.Data
 				{
 					Name = "Лидское премиум",
 					Description = "Легкий ароматный лагер золотистого цвета с пышной пеной и мягким вкусом.",
-					ImagePath = "images/beer-1.png",
+					ImagePath = $"{applicationUrl}/images/beer-1.png",
 					Price = 2.56M,
 					TypeId = lager.Id,
 					Type = lager,
@@ -40,7 +40,7 @@ namespace WebLab.API.Data
 				{
 					Name = "Лидское Портер",
 					Description = "Tемное пиво в стиле Балтийский портер, обладающее глубоким карамельным вкусом и выраженным ароматом с оттенками тостов.",
-					ImagePath = "images/beer-2.png",
+					ImagePath = $"{applicationUrl}/images/beer-2.png",
 					Price = 2.81M,
 					TypeId = porter.Id,
 					Type = porter,
@@ -49,7 +49,7 @@ namespace WebLab.API.Data
 				{
 					Name = "Koronet stout original",
 					Description = "Пиво, сваренное в британском стиле. Глубокий темный цвет, солодово-карамельный аромат, горчинка и пышная кремовая пена.",
-					ImagePath = "images/beer-3.png",
+					ImagePath = $"{applicationUrl}/images/beer-3.png",
 					Price = 3.02M,
 					TypeId = stout.Id,
 					Type = stout,
@@ -58,7 +58,7 @@ namespace WebLab.API.Data
 				{
 					Name = "Балтика 9 Крепкое",
 					Description = "Пиво производится по технологии низового брожения, крепость достигается естественным путем, благодаря использованию дрожжей, рассчитанных на интенсивное и длительное брожение. Напиток отличается свежим вкусом, легкой хмелевой горчинкой, мягким послевкусием с нотками солода.",
-					ImagePath = "images/beer-4.png",
+					ImagePath = $"{applicationUrl}/images/beer-4.png",
 					Price = 2.13M,
 					TypeId = lager.Id,
 					Type = lager,

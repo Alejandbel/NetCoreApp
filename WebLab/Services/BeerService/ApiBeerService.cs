@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using WebLab.Domain.Entities;
@@ -25,13 +27,15 @@ namespace WebLab.Services.BeerService
 
 			_serializerOptions = new JsonSerializerOptions()
 			{
-				PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+				PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+				IncludeFields = true,
 			};
 
 		}
 		public async Task<ResponseData<Beer>> CreateBeerAsync(Beer beer, IFormFile? formFile)
 		{
-			var uri = new UriBuilder(_httpClient.BaseAddress!.ToString(), "beers").Uri;
+			var urlString = $"{_httpClient.BaseAddress!.AbsoluteUri}beers";
+			var uri = new Uri(urlString);
 
 			var response = await _httpClient.PostAsJsonAsync(uri, beer, _serializerOptions);
 
@@ -49,12 +53,19 @@ namespace WebLab.Services.BeerService
 			}
 
 			var data = await response.Content.ReadFromJsonAsync<ResponseData<Beer>>(_serializerOptions);
-			return data!;
+
+            if (formFile != null && data != null)
+            {
+                await SaveImageAsync(data.Data.Id, formFile);
+            }
+
+            return data!;
 		}
 
 		public async Task DeleteBeerAsync(int id)
 		{
-			var uri = new UriBuilder(_httpClient.BaseAddress!.AbsoluteUri, $"beers/{id}").Uri;
+			var urlString = $"{_httpClient.BaseAddress!.AbsoluteUri}beers/{id}";
+			var uri = new Uri(urlString);
 
 			var response = await _httpClient.DeleteAsync(uri);
 			if (!response.IsSuccessStatusCode)
@@ -64,18 +75,19 @@ namespace WebLab.Services.BeerService
 			}
 		}
 
-		public async Task<ResponseData<ListModel<Beer>>> GetBeerListAsync(string? beerTypeNormalized, int pageNo = 1)
+		public async Task<ResponseData<ListModel<Beer>>> GetBeerListAsync(string? beerTypeNormalized, int pageNo = 1, int pageSize = -1)
 		{
+			pageSize = pageSize == -1 ? _pageSize : pageSize;
 			var urlString = new StringBuilder($"{_httpClient.BaseAddress!.AbsoluteUri}beers");
 			if (pageNo > 1)
 			{
 				urlString.Append($"/page{pageNo}");
 			};
-			
+
 			var query = new List<KeyValuePair<string, string?>>();
-			if (_pageSize != 3)
+			if (pageSize != 3)
 			{
-				query.Add(new("pageSize", _pageSize.ToString()));
+				query.Add(new("pageSize", pageSize.ToString()));
 			}
 			if (beerTypeNormalized != null)
 			{
@@ -108,7 +120,9 @@ namespace WebLab.Services.BeerService
 
 		public async Task<ResponseData<Beer>> GetBeerByIdAsync(int id)
 		{
-			var uri = new UriBuilder(_httpClient.BaseAddress!.ToString(), "beers").Uri;
+			var urlString = $"{_httpClient.BaseAddress!.AbsoluteUri}beers/{id}";
+			var uri = new Uri(urlString);
+
 
 			var response = await _httpClient.GetAsync(uri);
 
@@ -131,7 +145,8 @@ namespace WebLab.Services.BeerService
 
 		public async Task UpdateBeerAsync(int id, Beer beer, IFormFile? formFile)
 		{
-			var uri = new UriBuilder(_httpClient.BaseAddress!.ToString(), "beers").Uri;
+			var urlString = $"{_httpClient.BaseAddress!.AbsoluteUri}beers/{id}";
+			var uri = new Uri(urlString);
 
 			var response = await _httpClient.PutAsJsonAsync(uri, beer, _serializerOptions);
 
@@ -140,6 +155,25 @@ namespace WebLab.Services.BeerService
 				var errorMessage = $"Object not updated. Error {response.StatusCode}";
 				_logger.LogError(errorMessage);
 			}
+
+			if (formFile != null)
+			{
+                await SaveImageAsync(id, formFile);
+            }
+        }
+
+		private async Task SaveImageAsync(int id, IFormFile image)
+		{
+			var request = new HttpRequestMessage
+			{
+				Method = HttpMethod.Post,
+				RequestUri = new Uri($"{_httpClient.BaseAddress!.AbsoluteUri}beers/{id}"),
+			};
+			var content = new MultipartFormDataContent();
+			var streamContent = new StreamContent(image.OpenReadStream());
+			content.Add(streamContent, "formFile", image.FileName);
+			request.Content = content;
+			await _httpClient.SendAsync(request);
 		}
 	}
 }

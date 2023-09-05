@@ -18,6 +18,7 @@ namespace WebLab.API
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
+
 			AddServices(builder.Services);
 
 			AddDbContext(builder);
@@ -40,7 +41,7 @@ namespace WebLab.API
 
 			app.MapControllers();
 
-			DbInitializer.SeedData(app).Wait();
+			// DbInitializer.SeedData(app).Wait();
 
 			app.Run();
 		}
@@ -55,6 +56,8 @@ namespace WebLab.API
 		{
 			services.AddScoped<IBeerTypeService, BeerTypeService>();
 			services.AddScoped<IBeerService, BeerService>();
+
+			services.AddHttpContextAccessor();
 		}
 	}
 }
