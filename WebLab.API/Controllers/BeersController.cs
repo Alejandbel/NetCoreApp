@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebLab.API.Services.BeerService;
 using WebLab.Domain.Entities;
 using WebLab.Domain.Models;
@@ -19,6 +20,7 @@ namespace WebLab.API.Controllers
 		// GET: api/Beers
 		[HttpGet("page{pageNo}")]
 		[HttpGet]
+        [AllowAnonymous]
 		public async Task<ActionResult<ResponseData<List<Beer>>>> GetBeers(string? beerType, int pageNo = 1, int pageSize = 3)
 		{
 			var beerList = await _beerService.GetBeerListAsync(beerType, pageNo, pageSize);
@@ -27,7 +29,8 @@ namespace WebLab.API.Controllers
 
 		// GET: api/Beers/5
 		[HttpGet("{id}")]
-		public async Task<ActionResult<ResponseData<Beer>>> GetBeer(int id)
+        [AllowAnonymous]
+        public async Task<ActionResult<ResponseData<Beer>>> GetBeer(int id)
 		{
 			var beerResponse = await _beerService.GetBeerByIdAsync(id);
 			return Ok(beerResponse);
@@ -36,7 +39,8 @@ namespace WebLab.API.Controllers
 		// PUT: api/Beers/5
 		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 		[HttpPut("{id}")]
-		public async Task<IActionResult> PutBeer(int id, Beer beer)
+        [Authorize]
+        public async Task<IActionResult> PutBeer(int id, Beer beer)
 		{
 			await _beerService.UpdateBeerAsync(id, beer);
 			return NoContent();
@@ -45,7 +49,8 @@ namespace WebLab.API.Controllers
 		// POST: api/Beers
 		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 		[HttpPost]
-		public async Task<ActionResult<ResponseData<Beer>>> PostBeer(Beer beer)
+        [Authorize]
+        public async Task<ActionResult<ResponseData<Beer>>> PostBeer(Beer beer)
 		{
 			var createdBeer = await _beerService.CreateBeerAsync(beer);
 			return CreatedAtAction("GetBeer", new { id = createdBeer.Data.Id }, createdBeer);
@@ -53,7 +58,8 @@ namespace WebLab.API.Controllers
 
 		// DELETE: api/Beers/5
 		[HttpDelete("{id}")]
-		public async Task<IActionResult> DeleteBeer(int id)
+        [Authorize]
+        public async Task<IActionResult> DeleteBeer(int id)
 		{
 			await _beerService.DeleteBeerAsync(id);
 			return NoContent();
@@ -61,7 +67,8 @@ namespace WebLab.API.Controllers
 
 		// POST: api/Dishes/5
 		[HttpPost("{id}")]
-		public async Task<ActionResult<ResponseData<string>>> PostImage(int id, IFormFile formFile)
+        [Authorize]
+        [Authorize]public async Task<ActionResult<ResponseData<string>>> PostImage(int id, IFormFile formFile)
 		{
 			var response = await _beerService.SaveImageAsync(id, formFile);
 			if (response.IsSuccess)

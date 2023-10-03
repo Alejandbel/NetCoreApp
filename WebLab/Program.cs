@@ -1,3 +1,4 @@
+using Microsoft.IdentityModel.Logging;
 using WebLab.Models;
 using WebLab.Services.BeerService;
 using WebLab.Services.BeerTypeService;
@@ -19,6 +20,24 @@ namespace WebLab
 			var uriData = builder.Configuration.GetSection("UriData").Get<UriData>()!;
 			builder.Services.AddHttpClient("API", opt => opt.BaseAddress = new(uriData.ApiUri));
 
+			builder.Services.AddHttpContextAccessor();
+			builder.Services
+				.AddAuthentication(opt =>
+			{
+				opt.DefaultScheme = "access_token";
+				opt.DefaultChallengeScheme = "oidc";
+			})
+				.AddCookie("access_token")
+				.AddOpenIdConnect("oidc", options =>
+				{
+					options.Authority = builder.Configuration["InteractiveServiceSettings:AuthorityUrl"];
+					options.ClientId = builder.Configuration["InteractiveServiceSettings:ClientId"];
+					options.ClientSecret = builder.Configuration["InteractiveServiceSettings:ClientSecret"];
+					options.GetClaimsFromUserInfoEndpoint = true;
+					options.ResponseType = "code";
+					options.ResponseMode = "query";
+					options.SaveTokens = true;
+				});
 
 			var app = builder.Build();
 
@@ -37,6 +56,8 @@ namespace WebLab
 
 			app.UseRouting();
 
+			IdentityModelEventSource.ShowPII = true;
+			app.UseAuthentication();
 			app.UseAuthorization();
 
 			app.MapControllerRoute(
@@ -49,7 +70,7 @@ namespace WebLab
 				pattern: "{controller=Home}/{action=Index}/{id?}"
 			);
 
-			app.MapRazorPages();
+			app.MapRazorPages().RequireAuthorization();
 
 			app.Run();
 		}
