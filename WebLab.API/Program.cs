@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using WebLab.API.Data;
@@ -58,6 +58,7 @@ namespace WebLab.API
         {
             builder.Services.AddScoped<IBeerTypeService, BeerTypeService>();
             builder.Services.AddScoped<IBeerService, BeerService>();
+
 
             builder.Services.AddHttpContextAccessor();
 

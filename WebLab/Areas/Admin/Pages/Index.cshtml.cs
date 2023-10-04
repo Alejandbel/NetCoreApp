@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using WebLab.Domain.Entities;
+using WebLab.Domain.Models;
 using WebLab.Services.BeerService;
 
 namespace WebLab.Areas.Admin.Pages
@@ -12,12 +13,12 @@ namespace WebLab.Areas.Admin.Pages
 			_beerService = beerService;
 		}
 
-		public IList<Beer> Beer { get; set; } = default!;
+		public ListModel<Beer> Beer { get; set; } = default!;
 
-		public async Task OnGetAsync()
+		public async Task OnGetAsync(int pageNo = 1)
 		{
-			var beers = await _beerService.GetBeerListAsync(pageSize: 1000);
-			Beer = beers.Data.Items;
+			var beers = await _beerService.GetBeerListAsync(pageNo: pageNo);
+			Beer = beers.Data;
 		}
 	}
 }

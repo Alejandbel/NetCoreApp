@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebLab.Domain.Entities;
+using WebLab.Extensions;
 using WebLab.Services.BeerService;
 using WebLab.Services.BeerTypeService;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WebLab.Controllers
 {
@@ -29,7 +31,11 @@ namespace WebLab.Controllers
 			ViewData["beerTypes"] = beerTypes.Data;
 			ViewData["beerType"] = beerType;
 
-			return View(productResponse.Data);
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_BeerListPartial", productResponse.Data);
+            }
+            return View(productResponse.Data);
 		}
 	}
 }

@@ -1,0 +1,55 @@
+﻿@using WebLab.Domain.Models
+@using WebLab.Domain.Entities
+@model ListModel<Beer>
+
+@{
+	var request = ViewContext.HttpContext.Request;
+	var returnUrl = request.Path + request.QueryString.ToUriComponent();
+	var currentBeerType = ViewData["beerType"];
+}
+
+<div id="partial">
+	<div class="row row-cols-1 row-cols-md-3 g-4">
+		@foreach (var item in Model.Items)
+		{
+			<div class="col">
+				<div class="card h-100">
+					<img src="@item.ImagePath" class="card-img-top" style="object-fit: contain; height: 300px;" alt="beer">
+					<div class="card-body">
+						<h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+						<p class="card-text">
+							Type: @Html.DisplayFor(modelItem => item.Type!.Name)
+						</p>
+						<p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+						<p class="card-text">Price: @Html.DisplayFor(modelItem => item.Price)</p>
+
+					</div>
+					<a asp-controller="beer"
+					   asp-action="add"
+					   asp-route-id="@item.Id"
+					   asp-route-returnUrl="@returnUrl"
+					   class="btn btn-primary" style="vertical-align: bottom; margin:10px; padding:10px;">
+						Add to cart <i class="fa-solid fa-cart-shopping"></i>
+					</a>
+				</div>
+			</div>
+		}
+	</div>
+
+	<nav>
+		NAVVVV
+		<Pager current-page="@Model.CurrentPage" total-pages="@Model.TotalPages" admin=false beer-type="@currentBeerType"></Pager>
+	</nav>
+
+	<script>
+		﻿$(document).ready(() => {
+			$('a.page-link').click((e) => {
+				e.preventDefault(); 
+				let url = $(this).attr('href'); 
+				$.get(url, (data) => {
+					$('#partial').html(data);
+				});
+			});
+		});
+	</script>
+</div>

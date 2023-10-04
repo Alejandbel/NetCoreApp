@@ -1,7 +1,8 @@
-using Microsoft.IdentityModel.Logging;
+﻿using Microsoft.IdentityModel.Logging;
 using WebLab.Models;
 using WebLab.Services.BeerService;
 using WebLab.Services.BeerTypeService;
+using WebLab.TagHelpers;
 
 namespace WebLab
 {
@@ -79,6 +80,8 @@ namespace WebLab
 		{
 			services.AddScoped<IBeerService, ApiBeerService>();
 			services.AddScoped<IBeerTypeService, ApiBeerTypeService>();
-		}
-	}
+
+            services.AddScoped<PagerTagHelper>();
+        }
+    }
 }
