@@ -37,15 +37,14 @@
 	</div>
 
 	<nav>
-		NAVVVV
 		<Pager current-page="@Model.CurrentPage" total-pages="@Model.TotalPages" admin=false beer-type="@currentBeerType"></Pager>
 	</nav>
 
 	<script>
 		﻿$(document).ready(() => {
 			$('a.page-link').click((e) => {
-				e.preventDefault(); 
-				let url = $(this).attr('href'); 
+				e.preventDefault();
+				let url = $(this).attr('href');
 				$.get(url, (data) => {
 					$('#partial').html(data);
 				});
