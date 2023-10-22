@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebLab.Domain.Entities;
 using WebLab.Extensions;
 using WebLab.Services.BeerService;
 using WebLab.Services.BeerTypeService;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WebLab.Controllers
 {
@@ -18,7 +16,8 @@ namespace WebLab.Controllers
 			_beerTypeService = beerTypeService;
 		}
 
-		public async Task<IActionResult> Index(string? beerType, int pageNo)
+        [Route("beer/{beerType?}")]
+        public async Task<IActionResult> Index(string? beerType, int pageNo)
 		{
 			var productResponse = await _beerService.GetBeerListAsync(beerType, pageNo);
 			var beerTypes = await _beerTypeService.GetBeerTypeListAsync();

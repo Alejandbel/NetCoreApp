@@ -1,0 +1,32 @@
+﻿@model WebLab.Domain.Cart
+@{
+	var request = ViewContext.HttpContext.Request;
+	var returnUrl = request.Path + request.QueryString.ToUriComponent();
+}
+
+
+<div class="container overflow-hidden">
+	<h2>Your cart:</h2>
+	<div class="row row-cols-1 row-cols-md-3 g-4">
+		@foreach (var item in Model.CartItems.Values)
+		{
+			<div class="col">
+				<div class="card h-100">
+					<img src="@item.Beer.ImagePath" class="card-img-top" style="object-fit: contain; height: 300px;" alt="beer">
+					<div class="card-body">
+						<h5 class="card-title">@item.Beer.Name</h5>
+						<p class="card-text">Amount: @item.Amount</p>
+						<p class="card-text">Total price: @item.TotalPrice</p>
+					</div>
+					<a asp-controller="cart"
+					   asp-action="remove"
+					   asp-route-id="@item.Beer.Id"
+					   asp-route-returnUrl="@returnUrl"
+					   class="btn btn-danger" style="vertical-align: bottom; margin:10px; padding:10px;">
+						Remove from cart <i class="fa-solid fa-trash"></i>
+					</a>
+				</div>
+			</div>
+		}
+	</div>
+</div>

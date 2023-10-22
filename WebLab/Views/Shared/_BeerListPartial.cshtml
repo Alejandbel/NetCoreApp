@@ -24,7 +24,7 @@
 						<p class="card-text">Price: @Html.DisplayFor(modelItem => item.Price)</p>
 
 					</div>
-					<a asp-controller="beer"
+					<a asp-controller="cart"
 					   asp-action="add"
 					   asp-route-id="@item.Id"
 					   asp-route-returnUrl="@returnUrl"

@@ -1,7 +1,9 @@
 ﻿using Microsoft.IdentityModel.Logging;
+using WebLab.Domain;
 using WebLab.Models;
 using WebLab.Services.BeerService;
 using WebLab.Services.BeerTypeService;
+using WebLab.Services.Cart;
 using WebLab.TagHelpers;
 
 namespace WebLab
@@ -40,7 +42,10 @@ namespace WebLab
 					options.SaveTokens = true;
 				});
 
-			var app = builder.Build();
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession();
+
+            var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
 			if (!app.Environment.IsDevelopment())
@@ -61,6 +66,8 @@ namespace WebLab
 			app.UseAuthentication();
 			app.UseAuthorization();
 
+            app.UseSession();
+
 			app.MapControllerRoute(
 				  name: "Admin",
 				  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
@@ -80,6 +87,8 @@ namespace WebLab
 		{
 			services.AddScoped<IBeerService, ApiBeerService>();
 			services.AddScoped<IBeerTypeService, ApiBeerTypeService>();
+
+            services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
 
             services.AddScoped<PagerTagHelper>();
         }
