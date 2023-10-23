@@ -62,7 +62,6 @@ namespace WebLab
 
 			app.UseRouting();
 
-			IdentityModelEventSource.ShowPII = true;
 			app.UseAuthentication();
 			app.UseAuthorization();
 

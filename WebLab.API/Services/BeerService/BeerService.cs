@@ -19,7 +19,7 @@ namespace WebLab.API.Services.BeerService
 			_context = context;
 			_contextAccessor = httpContextAccessor;
 			_environment = environment;
-			_imageFolder = Path.Combine(_environment.WebRootPath, "Images");
+			_imageFolder = Path.Combine(environment?.WebRootPath ?? "", "Images");
 		}
 
 		public async Task<ResponseData<Beer>> CreateBeerAsync(Beer beer)

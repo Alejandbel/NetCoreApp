@@ -19,13 +19,16 @@ namespace WebLab.Controllers
         [Route("beer/{beerType?}")]
         public async Task<IActionResult> Index(string? beerType, int pageNo)
 		{
-			var productResponse = await _beerService.GetBeerListAsync(beerType, pageNo);
-			var beerTypes = await _beerTypeService.GetBeerTypeListAsync();
+            var beerTypes = await _beerTypeService.GetBeerTypeListAsync();
 
-			Console.WriteLine(productResponse.ToString());
+            if (!beerTypes.IsSuccess)
+                return NotFound(beerTypes.ErrorMessage);
 
-			if (!productResponse.IsSuccess)
-				return NotFound(productResponse.ErrorMessage);
+            var productResponse = await _beerService.GetBeerListAsync(beerType, pageNo);
+            
+            if (!productResponse.IsSuccess)
+                return NotFound(productResponse.ErrorMessage);
+           
 
 			ViewData["beerTypes"] = beerTypes.Data;
 			ViewData["beerType"] = beerType;

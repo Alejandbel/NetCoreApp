@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebLab.API", "..\WebLab.API
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebLab.IdentityServer", "..\WebLab.IdentityServer\WebLab.IdentityServer.csproj", "{6910511D-14B6-4F5C-A408-E3D77173F8B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebLab.Tests", "..\WebLab.Tests\WebLab.Tests.csproj", "{EAC5BED8-7904-45B5-9D22-7588EFD901FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{6910511D-14B6-4F5C-A408-E3D77173F8B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6910511D-14B6-4F5C-A408-E3D77173F8B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6910511D-14B6-4F5C-A408-E3D77173F8B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAC5BED8-7904-45B5-9D22-7588EFD901FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAC5BED8-7904-45B5-9D22-7588EFD901FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAC5BED8-7904-45B5-9D22-7588EFD901FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAC5BED8-7904-45B5-9D22-7588EFD901FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
