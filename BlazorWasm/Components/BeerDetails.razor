@@ -1,0 +1,36 @@
+﻿@inject IDataService DataService
+@implements IDisposable
+
+@if (Beer != null)
+{
+	<div class="card" style="width: 300px">
+        <img class="card-img-top" src="@Beer.ImagePath" style="object-fit: contain; max-height: 300px" alt="Beer">
+        <div class="card-body">
+            <h5 class="card-title">@Beer.Name</h5>
+            <p class="card-text">@Beer.Description</p>
+			<p>Price: @Beer.Price</p>
+			<p>Type: @Beer.Type.Name</p>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Beer? Beer { get; set; }
+
+	protected void Change()
+	{
+		StateHasChanged();
+	}
+
+
+	protected override void OnInitialized()
+	{
+		DataService.DataLoaded += Change;
+	}
+
+	public void Dispose()
+	{
+		DataService.DataLoaded -= Change;
+	}
+}

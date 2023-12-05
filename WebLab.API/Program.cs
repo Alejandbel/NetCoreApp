@@ -20,6 +20,15 @@ namespace WebLab.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddCors(options => options.AddPolicy("Cors",
+                builder =>
+                {
+                    builder.
+                    AllowAnyOrigin().
+                    AllowAnyMethod().
+                    AllowAnyHeader();
+                }));
+
             AddServices(builder);
 
             AddDbContext(builder);
@@ -33,10 +42,12 @@ namespace WebLab.API
                 app.UseSwaggerUI();
             }
 
+            app.UseCors("Cors");
+
             app.UseHttpsRedirection();
 
-			app.UseAuthentication();
-			app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseStaticFiles();
 

@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebLab.API", "..\WebLab.API
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebLab.IdentityServer", "..\WebLab.IdentityServer\WebLab.IdentityServer.csproj", "{6910511D-14B6-4F5C-A408-E3D77173F8B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebLab.Tests", "..\WebLab.Tests\WebLab.Tests.csproj", "{EAC5BED8-7904-45B5-9D22-7588EFD901FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebLab.Tests", "..\WebLab.Tests\WebLab.Tests.csproj", "{EAC5BED8-7904-45B5-9D22-7588EFD901FF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorWasm", "..\BlazorWasm\BlazorWasm.csproj", "{17D4BE63-CCA2-44F8-8583-54C0099266E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{EAC5BED8-7904-45B5-9D22-7588EFD901FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAC5BED8-7904-45B5-9D22-7588EFD901FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAC5BED8-7904-45B5-9D22-7588EFD901FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17D4BE63-CCA2-44F8-8583-54C0099266E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17D4BE63-CCA2-44F8-8583-54C0099266E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17D4BE63-CCA2-44F8-8583-54C0099266E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17D4BE63-CCA2-44F8-8583-54C0099266E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

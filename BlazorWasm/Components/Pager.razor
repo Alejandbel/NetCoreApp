@@ -1,0 +1,41 @@
+﻿@inject IDataService DataService
+@implements IDisposable
+
+@if (DataService.TotalPages > 1)
+{
+    <nav>
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(DataService.CurrentPage == 1 ? "disabled" : "")">
+                <button @onclick="()=>OnPageClick(DataService.CurrentPage - 1)" class="page-link">&laquo;</button>
+            </li>
+            @for (var currentPage = 1; currentPage <= DataService.TotalPages; currentPage += 1)
+            {
+				int pageNumber = currentPage;
+				<li class="page-item @(currentPage.Equals(DataService.CurrentPage)  ? "active" : "")">
+					<button class="page-link" @onclick="()=>OnPageClick(pageNumber)">@pageNumber</button>
+				</li>
+            }
+            <li class="page-item @(DataService.CurrentPage==DataService.TotalPages ? "disabled" : "")">
+                <button class="page-link" @onclick="()=>OnPageClick(DataService.CurrentPage + 1)">&raquo;</button>
+            </li>
+        </ul>
+    </nav>
+}
+
+@code {
+    protected async void OnPageClick(int page) => await DataService.GetProductListAsync(BeerType, page);
+
+    [Parameter]
+    public string? BeerType { get; set; }
+
+    protected override void OnInitialized()
+    {
+        DataService.DataLoaded += StateHasChanged;
+
+    }
+
+    public void Dispose()
+    {
+        DataService.DataLoaded -= StateHasChanged;
+    }
+}

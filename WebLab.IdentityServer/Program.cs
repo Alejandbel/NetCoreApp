@@ -18,15 +18,19 @@ try
 		.WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}")
 		.Enrich.FromLogContext()
 		.ReadFrom.Configuration(ctx.Configuration));
+
+
     builder.Services.AddControllers();
-	
+
     var app = builder
 		.ConfigureServices()
 		.ConfigurePipeline();
 
-	// this seeding is only for the template to bootstrap the DB and users.
-	// in production you will likely want a different approach.
-	Log.Information("Seeding database...");
+    app.UseCors("Cors");
+
+    // this seeding is only for the template to bootstrap the DB and users.
+    // in production you will likely want a different approach.
+    Log.Information("Seeding database...");
 	SeedData.EnsureSeedData(app);
 	Log.Information("Done seeding database. Exiting.");
 

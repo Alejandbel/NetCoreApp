@@ -1,0 +1,32 @@
+﻿@inject IDataService DataService
+@implements IDisposable
+
+<div class="dropdown">
+	<div class="dropdown">
+		<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			@(SelectedBeerType ?? "Все")
+		</button>
+		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			@foreach (var item in DataService.Categories)
+			{
+				<a class="dropdown-item" href="/beers/@item?.NormalizedName">
+					@item.Name
+				</a>
+			}
+		</div>
+	</div>
+</div>
+
+@code {
+	[Parameter]
+	public string SelectedBeerType { get; set; }
+
+	protected override void OnInitialized()
+	{
+		DataService.DataLoaded += StateHasChanged;
+	}
+	public void Dispose()
+	{
+		DataService.DataLoaded -= StateHasChanged;
+	}
+}

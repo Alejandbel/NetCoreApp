@@ -1,0 +1,45 @@
+﻿@page "/beers"
+@page "/beers/{beerType}"
+@attribute [Authorize]
+
+<PageTitle>Beers</PageTitle>
+
+<BeerTypePicker SelectedBeerType="@SelectedBeerType" />
+<BeerList OnBeerSelect="@OnBeerSelect"/>
+<Pager BeerType="@BeerType" />
+<BeerDetails Beer="@SelectedBeer"/>
+
+@code {
+	[Parameter] public string? BeerType { get; set; }
+	public string? SelectedBeerType { get; set; }
+
+	public Beer? SelectedBeer { get; set; }
+
+
+	public void OnBeerSelect(int id)
+	{
+		SelectedBeer = DataService.ObjectsList.FirstOrDefault((i) => i.Id == id);
+		StateHasChanged();
+	}
+
+	[Inject]
+	public IDataService DataService { get; set; }
+	protected override async Task OnInitializedAsync()
+	{
+		await Task.WhenAll(
+			DataService.GetProductListAsync(BeerType),
+			DataService.GetCategoryListAsync()
+		);
+	}
+
+	protected override async Task OnParametersSetAsync()
+	{
+		await DataService.GetProductListAsync(BeerType);
+		if (BeerType != null)
+			SelectedBeerType = DataService
+			.Categories
+			.FirstOrDefault(c =>
+			c.NormalizedName.Equals(BeerType))
+			?.Name;
+	}
+}

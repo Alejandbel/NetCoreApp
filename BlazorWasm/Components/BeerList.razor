@@ -1,0 +1,48 @@
+﻿@inject IDataService DataService
+@implements IDisposable
+<h1>Beers</h1>
+
+@if (DataService.ObjectsList.Count == 0)
+{
+	<p><em>Loading...</em></p>
+}
+else
+{
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Price</th>
+				<th>Type</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var beer in DataService.ObjectsList)
+			{
+				<tr>
+					<td>@beer.Name</td>
+					<td>@beer.Description</td>
+					<td>@beer.Price</td>
+					<td>@beer.Type.Name</td>
+					<button class="btn btn-outline-primary" @onclick="() => {OnBeerSelect?.Invoke(beer.Id);}">Info</button>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+
+@code {
+	[Parameter]
+	public Action<int>? OnBeerSelect { get; set; }
+
+	protected override void OnInitialized()
+	{
+		DataService.DataLoaded += StateHasChanged;
+	}
+	public void Dispose()
+	{
+		DataService.DataLoaded -= StateHasChanged;
+	}
+}
